@@ -39,8 +39,8 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/contact" className={`nav-link ${location === '/contact' ? 'active' : ''}`}>
-                Contact
+              <Link href="/cart" className={`nav-link ${location === '/cart' ? 'active' : ''}`}>
+                Cart
               </Link>
             </li>
           </ul>

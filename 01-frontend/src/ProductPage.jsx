@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
+import { useCart } from './CartStore';
+
 
 function ProductPage() {
   const [products, setProducts] = useState([]);
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
