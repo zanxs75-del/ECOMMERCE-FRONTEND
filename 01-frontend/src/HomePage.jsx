@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
-
 function HomePage() {
     const [featuredProducts, setFeaturedProducts] = useState([]);
 
@@ -34,6 +33,7 @@ function HomePage() {
         }
         return productElements;
     };
+
     return (
         <>
             <header className="bg-primary text-white text-center py-5">

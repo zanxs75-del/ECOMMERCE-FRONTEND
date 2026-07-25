@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 
 function Navbar() {
-  const [isNavbarShowing, setIsNavbarShowing] = useState(false);
-  // returns the current URL
+  const [isNavbarShowing, setNavbarShowing] = useState(false);
   const [location] = useLocation();
 
   const toggleNavbar = () => {
-    setIsNavbarShowing(!isNavbarShowing);
+    setNavbarShowing(!isNavbarShowing);
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
         <Link href="/" className="navbar-brand">E-Shop</Link>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -36,6 +36,11 @@ function Navbar() {
             <li className="nav-item">
               <Link href="/register" className={`nav-link ${location === '/register' ? 'active' : ''}`}>
                 Register
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/contact" className={`nav-link ${location === '/contact' ? 'active' : ''}`}>
+                Contact
               </Link>
             </li>
           </ul>

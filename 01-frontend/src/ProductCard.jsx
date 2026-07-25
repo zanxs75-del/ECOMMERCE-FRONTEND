@@ -1,15 +1,17 @@
 import React from 'react';
 
 const ProductCard = (props) => {
-    const handleAddToCart = () => {
+
+  const handleAddToCart = () => {
     alert("Added to Cart!")
   }
+
   return (
     <div className="card">
       <img
         src={props.imageUrl}
         className="card-img-top"
-        alt={props.productname}
+        alt={props.productName}
       />
       <div className="card-body">
         <h5 className="card-title">{props.productName}</h5>

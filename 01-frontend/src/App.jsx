@@ -11,9 +11,11 @@ function App() {
       <Navbar />
       <Switch>
         <Route path="/" component={HomePage} />
+        <Route path="/products" component={ProductPage} />
+        <Route path="/register" component={RegisterPage} />
       </Switch>
       <footer className="bg-dark text-white text-center py-3">
-        <div className="container">
+       <div className="container">
           <p>&copy; 2023 E-Shop. All rights reserved.</p>
         </div>
       </footer>
