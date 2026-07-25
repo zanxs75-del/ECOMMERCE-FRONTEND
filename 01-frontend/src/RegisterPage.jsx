@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useLocation } from 'wouter';
+import { useFlashMessage } from './FlashMessageStore';
+
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),
@@ -19,16 +21,18 @@ function RegisterPage() {
 
   const [, setLocation] = useLocation();
   const [showSuccess, setShowSuccess] = useState(false);
+  const { showMessage } = useFlashMessage();
 
-  const handleSubmit = async (values, formikHelpers) => {
+    const handleSubmit = async (values, formikHelpers) => {
     try {
       console.log(values);
-      setLocation("/");
-
+      showMessage('Registration successful!', 'success');
     } catch (error) {
-      console.error('Registration failed:', error.response?.data || error.message);
+      // when we might have errors later
+      showMessage('Registration failed. Please try again.', 'error');
     } finally {
       formikHelpers.setSubmitting(false);
+      setLocation('/');
     }
   };
 
