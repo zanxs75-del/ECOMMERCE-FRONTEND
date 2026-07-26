@@ -43,6 +43,7 @@ function Navbar() {
                 Cart
               </Link>
             </li>
+            
           </ul>
         </div>
       </div>

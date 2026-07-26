@@ -1,52 +1,51 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import ProductCard from './ProductCard'
+import { useState, useEffect } from 'react';
 import { useCart } from './CartStore';
 import { useLocation } from 'wouter';
-import { useFlashMessage } from './FlashMessageStore';
+import axios from 'axios';
 
-export default function ProductPage() {
+import ProductCard from './ProductCard';
+import { useFlashMessage } from './FlashMessageStore'
 
-    const [products, setProducts] = useState([]);
-    const { addToCart} = useCart();
-    const [, setLocation] = useLocation();
-    const { showMessage} = useFlashMessage();
+function ProductPage() {
+  const [products, setProducts] = useState([]);
+  const [, setLocation] = useLocation();
+  const {addToCart} = useCart();
+  const {showMessage} = useFlashMessage();
 
-    const handleAddToCart = (product) => {
-        addToCart(product);
-        showMessage("Product added to cart", "success");
-        setLocation("/cart");
-    }
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('/products.json');
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get("products.json");
-            setProducts(response.data);
-        }
-        fetchData();
-    }, []);
+    fetchProducts();
+  }, []);
 
-    return (
-        <div className="container mt-5">
-            <h1>Our Products</h1>
-            <div className="row">
-                {
-                    products.map(p =>
-                        (
-                            <div className="col-md-3 mb-4" key={p.id}>
-                                <ProductCard
-                                    imageUrl={p.image}
-                                    productName={p.name}
-                                    price={p.price}
-                                    onAddToCart={()=>{
-                                        handleAddToCart(p)
-                                    }}
-                                />
-                            </div>
-                        )
-                    )
-                }
-            </div>
-        </div>
-    )
+  return (
+    <div className="container my-5">
+      <h1 className="text-center mb-4">Our Products</h1>
+      <div className="row">
+        {products.map(p => (
+          <div key={p.id} className="col-md-4 mb-4">
+            <ProductCard
+              imageUrl={p.imageUrl}
+              productName={p.name}
+              price={p.price.toFixed(2)}
+              onAddToCart={()=>{
+                addToCart(p),
+                showMessage("New item added to cart!");
+                setLocation('/cart');
+              }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
+
+export default ProductPage;

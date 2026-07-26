@@ -6,17 +6,11 @@ import RegisterPage from './RegisterPage';
 import { Route, Switch } from 'wouter';
 import { useFlashMessage } from './FlashMessageStore';
 import "./App.css";
-
+import ShoppingCart from './ShoppingCart';
 
 function App() {
-
-
-  const { flashMessage } = useFlashMessage();
-
-
-  return (<>
-
-
+const { flashMessage } = useFlashMessage();
+return (<>
     {
       flashMessage.message && (
         <div className={`flash-alert alert alert-${flashMessage.type}`}>
@@ -25,15 +19,13 @@ function App() {
       )
     }
 
-
-
-
-    <Navbar />
+      <Navbar />
 
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/products" component={ProductPage} />
       <Route path="/register" component={RegisterPage} />
+      <Route path="/cart" component={ShoppingCart} />
     </Switch>
     <footer className="bg-dark text-white text-center py-3">
       <div className="container">
@@ -45,3 +37,11 @@ function App() {
 }
 
 export default App;
+
+
+
+
+    
+
+
+

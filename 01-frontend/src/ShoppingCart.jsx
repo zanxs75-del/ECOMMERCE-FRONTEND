@@ -15,18 +15,20 @@ const ShoppingCart = () => {
             {cart.map((item) => (
               <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                  <h5>{item.product_name}</h5>
+                  <img src={item.imageUrl} alt={item.productName} className="cart-image" />
+                  <h5>{item.productName}</h5>
                   <div className="d-flex align-items-center">
                     <button className="btn btn-sm btn-secondary me-2" onClick={() => modifyQuantity(item.product_id, item.quantity - 1)}>-</button>
                     <p className="mb-0">Quantity: {item.quantity}</p>
                     <button className="btn btn-sm btn-secondary ms-2" onClick={() => modifyQuantity(item.product_id, item.quantity + 1)}>+</button>
-                    <button className="btn btn-sm btn-danger ms-2" onClick={() => removeFromCart(item.product_id)}>Remove</button>
+                    <button className="btn btn-sm btn-danger ms-2" onClick={() => removeFromCart(item)}>Remove</button>
                   </div>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+                <span>${(item.price * item.quantity).toFixed(2)}</span>
               </li>
             ))}
           </ul>
-          <div className="mt-3 mb-3 text-end">
+          <div className="mt-3 text-end">
             <h4>Total: ${getCartTotal()}</h4>
           </div>
         </>
