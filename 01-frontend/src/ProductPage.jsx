@@ -4,13 +4,13 @@ import { useLocation } from 'wouter';
 import axios from 'axios';
 
 import ProductCard from './ProductCard';
-import { useFlashMessage } from './FlashMessageStore'
+import { useFlashMessage } from './FlashMessageStore';
 
 function ProductPage() {
   const [products, setProducts] = useState([]);
   const [, setLocation] = useLocation();
-  const {addToCart} = useCart();
-  const {showMessage} = useFlashMessage();
+  const { addToCart } = useCart();
+  const { showMessage } = useFlashMessage();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,6 +25,12 @@ function ProductPage() {
     fetchProducts();
   }, []);
 
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    showMessage("New item added to cart!");
+    setLocation('/cart');
+  };
+
   return (
     <div className="container my-5">
       <h1 className="text-center mb-4">Our Products</h1>
@@ -32,14 +38,10 @@ function ProductPage() {
         {products.map(p => (
           <div key={p.id} className="col-md-4 mb-4">
             <ProductCard
-              imageUrl={p.imageUrl}
+              imageUrl={p.imageUrl || p.image}
               productName={p.name}
-              price={p.price.toFixed(2)}
-              onAddToCart={()=>{
-                addToCart(p),
-                showMessage("New item added to cart!");
-                setLocation('/cart');
-              }}
+              price={p.price}
+              onAddToCart={() => handleAddToCart(p)}  // Fixed: proper function call
             />
           </div>
         ))}

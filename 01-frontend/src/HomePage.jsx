@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
+import { useCart } from './CartStore';
+import { useLocation } from 'wouter';
+import { useFlashMessage } from './FlashMessageStore';
+
 function HomePage() {
     const [featuredProducts, setFeaturedProducts] = useState([]);
+    const { addToCart } = useCart();
+    const [, setLocation] = useLocation();
+    const { showMessage } = useFlashMessage();
 
     useEffect(() => {
         const fetchFeaturedProducts = async () => {
@@ -17,21 +24,10 @@ function HomePage() {
         fetchFeaturedProducts();
     }, []);
 
-    const renderFeaturedProducts = () => {
-        const productElements = [];
-        for (const product of featuredProducts) {
-            productElements.push(
-                <div key={product.id} className="col-md-3 mb-4">
-                    <ProductCard
-                        id={product.id}
-                        imageUrl={product.imageUrl}
-                        productName={product.name}
-                        price={product.price.toFixed(2)}
-                    />
-                </div>
-            );
-        }
-        return productElements;
+    const handleAddToCart = (product) => {
+        addToCart(product);
+        showMessage("Product added to cart!", "success");
+        setLocation('/cart');
     };
 
     return (
@@ -40,7 +36,7 @@ function HomePage() {
                 <div className="container">
                     <h1 className="display-4">Welcome to E-Shop</h1>
                     <p className="lead">Discover amazing products at unbeatable prices!</p>
-                    <a href="#" className="btn btn-light btn-lg">Shop Now</a>
+                    <a href="/products" className="btn btn-light btn-lg">Shop Now</a>
                 </div>
             </header>
 
@@ -48,7 +44,17 @@ function HomePage() {
                 <h2 className="text-center mb-4">Featured Products</h2>
 
                 <div className="row">
-                    {renderFeaturedProducts()}
+                    {featuredProducts.map((product) => (
+                        <div key={product.id} className="col-md-3 mb-4">
+                            <ProductCard
+                                id={product.id}
+                                imageUrl={product.imageUrl}
+                                productName={product.name}
+                                price={product.price.toFixed(2)}
+                                onAddToCart={() => handleAddToCart(product)}  // ✅ Pass the function
+                            />
+                        </div>
+                    ))}
                 </div>
             </main>
         </>
